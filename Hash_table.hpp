@@ -80,7 +80,7 @@ void HashMap<VT>::insert(std::string k, VT val) { //
   
   // primero vamos a crear al nodo (bucket)
   unsigned bucket = hash(k);// bucket va a tener el indice hash
-  Cell<VT>* c = find_in_bucket(bucket, k); // esto no lo entiendo
+  Cell<VT>* c = find_in_bucket(bucket, k);
   if(c == nullptr){
     Cell<VT>* n = new Cell<VT>;
     n->key = k;
