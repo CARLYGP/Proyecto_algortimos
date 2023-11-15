@@ -53,7 +53,7 @@ unsigned HashMap<VT>::hash(std::string k) {
     unsigned int hashVal = 0;
 
     if (!k.empty()) {
-        char firstChar = tolower(k[0]); // Convert the first character to lowercase
+        char firstChar = tolower(k[0]);
 
         // Check if the character is a lowercase letter
         if (firstChar >= 'a' && firstChar <= 'z') {
