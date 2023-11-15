@@ -104,5 +104,3 @@ hash.display();
 return 0;
 }
 // para que la tabla hash este organizada, encontrar un valor hash que al aplicarle el modulo de lo necesario para quedar ordenado
-
->>>>>>> Stashed changes
