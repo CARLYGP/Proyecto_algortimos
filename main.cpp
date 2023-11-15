@@ -1,12 +1,4 @@
 #include<iostream>
-<<<<<<< Updated upstream
-using namespace std;
-
-int main(){
-    cout<<"Prueba 1";
-    cout<<"Prueba 2";
-}
-=======
 #include<string>
 #include <cstring>//pata strslen
 #include<vector>
