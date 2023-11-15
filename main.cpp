@@ -13,7 +13,7 @@ using namespace std;
 int asignarValorLexicografico(const std::string& palabra) {
     std::unordered_map<char, int> valorLetra;
 
-    // Asigna valores únicos a cada letra basándose en su posición lexicográfica
+    // valores únicos a cada letra basado en su posición lexicográfica
     for (char letra = 'a'; letra <= 'z'; ++letra) {
         valorLetra[letra] = letra - 'a' + 1;
     }
