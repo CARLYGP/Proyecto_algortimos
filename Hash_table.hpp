@@ -1,6 +1,7 @@
 #ifndef HASHMAP_HPP
 #define HASHMAP_HPP
 #include<map>
+
 #include <string>
 #include <iostream>
 
@@ -30,9 +31,10 @@ class HashMap {
   void insert(std::string k, VT val);
   void remove(std::string k);
   VT get(std::string k);
-  unsigned size();
-  
   void display();
+  unsigned size(){
+      return _size;
+  }
 };
 
 //IMPLEMENTATION ---------------------------------------------
@@ -65,37 +67,49 @@ unsigned HashMap<VT>::hash(std::string k) {
 }
 
 template <typename VT>
-Cell<VT>* HashMap<VT>::find_in_bucket(unsigned b, std::string k) { // se busca linealmente en el bucket 
-  Cell<VT>* cursor = table[b]; // crear apuntador cursor que apunte al primer elemento del indice indicado de la tabla 
-  while(cursor != nullptr){ // mientras el apuntador sea diferente de a null 
-    if(cursor->key == k) // si el cursor encientra la llave y es == a k ingresada 
-      return cursor; // return el cursor que es un apuntador 
-    cursor = cursor->next;  // sino vaya al siguinte elemento de la tabla
+Cell<VT>* HashMap<VT>::find_in_bucket(unsigned b, std::string k) { 
+  Cell<VT>* cursor = table[b]; 
+  while(cursor != nullptr){ 
+    if(cursor->key == k)  
+      return cursor; 
+    cursor = cursor->next;  
   }
   return cursor; 
 }
 
 template <typename VT>
-void HashMap<VT>::insert(std::string k, VT val) { // 
-  
-  // primero vamos a crear al nodo (bucket)
-  unsigned bucket = hash(k);// bucket va a tener el indice hash
-  Cell<VT>* c = find_in_bucket(bucket, k);
-  if(c == nullptr){
-    Cell<VT>* n = new Cell<VT>;
-    n->key = k;
-    n->val = val;
-    if(table[bucket] == nullptr){
-      n->next = nullptr;
-    }else{
-      n->next = table[bucket];
+void HashMap<VT>::insert(std::string k, VT val) {
+    unsigned bucket = hash(k);
+    
+    // Buscar si la clave ya existe 
+    Cell<VT>* existingCell = find_in_bucket(bucket, k);
+    
+    if (existingCell == nullptr) {
+        // La clave no existe
+        Cell<VT>* newCell = new Cell<VT>;
+        newCell->key = k;
+        newCell->val = val;
+        newCell->next = table[bucket];
+        table[bucket] = newCell;
+        _size++;
+    } else {
+        // La clave ya existe
+        Cell<VT>* newCell = new Cell<VT>;
+        newCell->key = k;
+        newCell->val = val;
+        newCell->next = nullptr;
+
+       
+        Cell<VT>* cursor = existingCell;
+        while (cursor->next != nullptr) {
+            cursor = cursor->next;
+        }
+        cursor->next = newCell;
+        _size++;
     }
-    table[bucket] = n;
-    _size++;
-  }else{
-    c->val = val;
-  }
 }
+
+
 
 template <typename VT>
 VT HashMap<VT>::get(std::string k) {
@@ -133,7 +147,7 @@ void HashMap<VT>::display() {
     cursor = table[i];
     while(cursor != nullptr){
       std::cout << "(" << cursor->key << ","
-		<< cursor->val << ") ";
+    << cursor->val << ") ";
       cursor = cursor->next;
     }
     std::cout << "\n";
