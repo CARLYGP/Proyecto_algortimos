@@ -88,16 +88,19 @@ while(salir==1){
         string n;
         cout<<"Ingrese nombre que quiere buscar"<<endl;
         cin>>n;
-        auto item = datos_rep.find(n); // verificar si el nombre esta repedio
+        
+        auto item = datos_rep.find(n);
         if (item != datos_rep.end()) {
-        if( item->second>1){
-             cout<<"Se necesita informacion adicional, ingrese el numero del contacto"<<endl; // cuando el nombre es repetido
-              cin>>num;
+
+        if( item->second>=1){
             auto item = datos_rep2.find(num);
                  if (item != datos_rep2.end()) {
                      item->second.veces_visitado+=1; // si se ingresa un nombre repetido se aumenta el atributo veces_visitado
-                    cout<<item->second.veces_visitado<<endl;
+                    
                     }
+                    
+              cout<<"Se necesita informacion adicional, ingrese el numero del contacto"<<endl; // cuando el nombre es repetido
+              cin>>num;
               int opc1;
               cout<<"Perfecto, quiere saber info de " << n <<" sobre: (1:direccion)(2:redes sociales)(3:salir)"<<endl;
               cin>>opc1;
@@ -106,6 +109,7 @@ while(salir==1){
                  auto item = datos_rep2.find(num);
                  if (item != datos_rep2.end()) {
                  cout<<item->second.direccion<<endl;
+                 
                     }
                 }else if(opc1==2){
                     auto item = datos_rep2.find(num);
@@ -116,20 +120,16 @@ while(salir==1){
                     break;
                 }
                 }else{
-                    cout<<"No se necesita informacion adicional"<<endl;
                     auto item = datos_no_rep.find(n);
-                    auto item2=datos_rep2.find(num);
                          if (item != datos_no_rep.end()) {
                              item->second.veces_visitado+=1;
-                        }
-                        if(item2 != datos_rep2.end()){
-                            item2->second.veces_visitado+=1;
                         }
                     int cerrar=1;
                     while (cerrar==1){
                     int opc;
                     cout<<"Perfecto, quiere saber info de "<< n <<" sobre: (1:telefono)(2:direccion)(3:redes sociales)(4:salir)"<<endl;
                     cin>>opc;
+                           
                     if(opc==1){
                         auto item = datos_no_rep.find(n);
                          if (item != datos_no_rep.end()) {
