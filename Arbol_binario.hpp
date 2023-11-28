@@ -26,10 +26,8 @@ private:
   void display_node(Node<T> *node, int level);
   Node<T>* find_node(Node<T> *node, T k);
   Node<T>* remove_node(Node<T>* &node, T k);
-  Node<T>* minimum(Node<T> *node);
-  Node<T>* maximum(Node<T> *node);
-  Node<T>* successor(Node<T> *node);
-  Node<T>* predecessor(Node<T> *node);
+  Node<T>* successor(Node<T> *node);//nodo successor
+  Node<T>* predecessor(Node<T> *node);//nodo predecessor
   void destroy_recursive(Node<T> *node);// destructor de la clase
   void inOrden(Node<T>* n);
   /**/
@@ -131,25 +129,7 @@ bool Btree<T>::find(T k) {
   return find_node(root, k) != nullptr;
 }
 
-template <typename T>
-Node<T>* Btree<T>::minimum(Node<T>* node) {
-  if(node == nullptr)
-    return nullptr;
-  if(node->left == nullptr)
-    return node;
-  else
-    return minimum(node->left);
-}
 
-template <typename T>
-Node<T>* Btree<T>::maximum(Node<T>* node) {
-  if(node == nullptr)
-    return nullptr;
-  if(node->right == nullptr)
-    return node;
-  else
-    return maximum(node->right);
-}
 
 template <typename T>
 Node<T>* Btree<T>::successor(Node<T> *node) {
@@ -228,7 +208,7 @@ bool Btree<T>::remove(T k) {
 
 template <typename T>
 void Btree<T>::inOrden(Node<T>* n) { // el recorrido es (left,root,right)
-  if(n != nullptr){ //el arbol no puede estar vacio
+  if(n != nullptr){ 
     inOrden(n-> left);// recorrer por la parte izq
     v1.push_back(n->key); 
     inOrden(n-> right); // recorrer la parte derecha e imprimir
@@ -261,4 +241,3 @@ void Btree<T>::display() {
 }
 
 #endif
-
