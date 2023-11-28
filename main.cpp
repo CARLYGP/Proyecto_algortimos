@@ -6,11 +6,8 @@
 #include"Hash_table.hpp"
 #include"Arbol_binario.hpp"
 #include<vector>
-
 // el arbol sirve como historial de nombres
-
 using namespace std;
-
 struct contacto{
   
     string nombre;
@@ -25,27 +22,17 @@ struct contacto{
     int veces_repetido;
     int veces_visitado; //# de veces que se ha visitado en cada ejecución un perfil
 };
-
-
-
 // hacer que el valor que tenga cada nombre sea su indice en el vector ordenado
 int main(){
-   
+    
     map<string,contacto>datos_no_rep; //si solo se necesita el nombre para acceder al contacto
     map<string,contacto>datos_rep2;  // se necesita el numero porque el nombre esta repetido
     map<string,int>datos_rep; // mirar cuantas veces esta repetido el nombre
-    Btree<string>arbol_str;
-
-    arbol_str.display();
     Btree<string> mi_arbol;
-    HashMap<string> hash; // string es el valor de la llave y int el valor 
-    
-   
-
+    HashMap<string> hash;
     int exit=1;
-
-int opciones;
-int salir=1;
+    int opciones;
+    int salir=1;
 
 while(salir==1){
     cout<<"--------------------------Libreta de contactos---------------------------"<<endl;
@@ -82,7 +69,7 @@ while(salir==1){
    cin>> c.Instagram;
    cout<<"Usuario de Github"<<endl;
    cin>>c.Github;
-   
+  
    c.veces_repetido=0;
     if (mi_arbol.find(c.nombre)==1){
         c.veces_repetido+=1;
@@ -96,24 +83,21 @@ while(salir==1){
     datos_rep2[c.telefono]=c; 
     datos_rep[c.nombre]=c.veces_repetido;
     
-    } if (opciones ==2){
+    }  if (opciones ==2){
         string num;
         string n;
         cout<<"Ingrese nombre que quiere buscar"<<endl;
         cin>>n;
-        
-        auto item = datos_rep.find(n);
+        auto item = datos_rep.find(n); // verificar si el nombre esta repedio
         if (item != datos_rep.end()) {
-
-        if( item->second>=1){
+        if( item->second>1){
+             cout<<"Se necesita informacion adicional, ingrese el numero del contacto"<<endl; // cuando el nombre es repetido
+              cin>>num;
             auto item = datos_rep2.find(num);
                  if (item != datos_rep2.end()) {
                      item->second.veces_visitado+=1; // si se ingresa un nombre repetido se aumenta el atributo veces_visitado
-                    
+                    cout<<item->second.veces_visitado<<endl;
                     }
-                    
-              cout<<"Se necesita informacion adicional, ingrese el numero del contacto"<<endl; // cuando el nombre es repetido
-              cin>>num;
               int opc1;
               cout<<"Perfecto, quiere saber info de " << n <<" sobre: (1:direccion)(2:redes sociales)(3:salir)"<<endl;
               cin>>opc1;
@@ -122,7 +106,6 @@ while(salir==1){
                  auto item = datos_rep2.find(num);
                  if (item != datos_rep2.end()) {
                  cout<<item->second.direccion<<endl;
-                 
                     }
                 }else if(opc1==2){
                     auto item = datos_rep2.find(num);
@@ -133,16 +116,20 @@ while(salir==1){
                     break;
                 }
                 }else{
+                    cout<<"No se necesita informacion adicional"<<endl;
                     auto item = datos_no_rep.find(n);
+                    auto item2=datos_rep2.find(num);
                          if (item != datos_no_rep.end()) {
                              item->second.veces_visitado+=1;
+                        }
+                        if(item2 != datos_rep2.end()){
+                            item2->second.veces_visitado+=1;
                         }
                     int cerrar=1;
                     while (cerrar==1){
                     int opc;
                     cout<<"Perfecto, quiere saber info de "<< n <<" sobre: (1:telefono)(2:direccion)(3:redes sociales)(4:salir)"<<endl;
                     cin>>opc;
-                           
                     if(opc==1){
                         auto item = datos_no_rep.find(n);
                          if (item != datos_no_rep.end()) {
@@ -174,7 +161,6 @@ while(salir==1){
         string cont;
         cout<<"Ingrese el nombre del contacto que quiere eliminar"<<endl;
         cin>>cont;
-        
         //---------------- caso repetidos------------------
         auto item = datos_rep.find(cont);
         if (item != datos_rep.end()) {
@@ -193,23 +179,23 @@ while(salir==1){
             //--------------- caso no repetidos----------------
         }
     } if(opciones==4){
-         mi_arbol.display();
+         mi_arbol.display(); //historial de contactos 
     }if (opciones==5){
         hash.display();
     }if (opciones==6){
-        cout<<"Hay "<<mi_arbol.get_size()<<" Contactos en la libreta disponibles"<<endl;
+        cout<<"Hay "<<hash.size()<<" Contactos en la libreta disponibles"<<endl;
     }if(opciones==7){
-         mi_arbol.inOrden();
+        mi_arbol.inOrden();
         vector<string>vector2=mi_arbol.get_vector();
             for (int i=0;i<vector2.size();i++){
                auto item = datos_no_rep.find(vector2[i]);
                          if (item != datos_no_rep.end()) {
                             cout<<"{"<<"Nombre: "<<vector2[i]<<","<<"frecuencia de visitas del perfil: "<<item->second.veces_visitado<<"}"<<endl;
                         }
-                        
+       
                 }
-    }if (opciones==8){
-         mi_arbol.inOrden();
+            }if (opciones==8){
+          mi_arbol.inOrden();
          vector<string>vector=mi_arbol.get_vector();
          ofstream archivo;
         archivo.open("Copia_de_seguridad.txt",ios::out);// abrir archivo
@@ -221,8 +207,7 @@ while(salir==1){
                 auto item = datos_no_rep.find(vector[i]);
                          if (item != datos_no_rep.end()) {
                             archivo<<"{"<<vector[i]<<" , "<<"Telefono: "<<item->second.telefono<<" , "<<"Direccion: "<<item->second.direccion<<","<<"Instagram: "<<item->second.Instagram<<","<<"Github: "<<item->second.Github<<","<<"# de veces que se visitó en perfil: "<<item->second.veces_visitado<<"}"<<endl;
-                        }
-                        
+                        } 
                 }
             
             archivo.close();
@@ -233,9 +218,6 @@ while(salir==1){
     }else if(opciones>8 or opciones<1){  // por si el usuario ingresa un comando invalido
         salir=0;
     }
-
 }
-
 return 0;
 }
-
