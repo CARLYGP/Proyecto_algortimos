@@ -117,12 +117,12 @@ while(salir==1){
                             cout<<"Instagram: "<<item->second.Instagram<<" Github: " <<item->second.Github <<endl;
                         }
                 }else if(opc1==3){
-                    break;
+                 
                 }
                 }else{
                     auto item = datos_no_rep.find(n);
                          if (item != datos_no_rep.end()) {
-                             item->second.veces_visitado+=1;
+                             item->second.veces_visitado+=1; // aumentar visita de perfil
                         }
                     int cerrar=1;
                     while (cerrar==1){
